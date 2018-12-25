@@ -1,12 +1,15 @@
 package com.example.user.smartmuseum;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.GridView;
 
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
+import com.example.user.smartmuseum.estimote.ProximityContent;
 import com.example.user.smartmuseum.estimote.ProximityContentAdapter;
 import com.example.user.smartmuseum.estimote.ProximityContentManager;
 
@@ -63,7 +66,33 @@ public class Search extends AppCompatActivity {
     }
 
     private void startProximityContentManager() {
-        proximityContentManager = new ProximityContentManager(this, proximityContentAdapter, ((MyApplication) getApplication()).cloudCredentials);
+        proximityContentManager = new ProximityContentManager(
+                this,
+                proximityContentAdapter,
+                ((MyApplication) getApplication()).cloudCredentials,
+                new ProximityContentManager.BeaconsCallback() {
+                    @Override
+                    public void onBeaconsDetected(final List<ProximityContent> nearbyContent) {
+                        new AlertDialog.Builder(Search.this)
+                                .setTitle("Go to new beacon?")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        List<ProximityContent> contents = nearbyContent;
+
+                                        // TODO: 2018-12-25 start activity here with contents
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // nothing here
+                                    }
+                                })
+                                .show();
+                    }
+                }
+        );
         proximityContentManager.start();
     }
 

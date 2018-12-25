@@ -32,11 +32,18 @@ public class ProximityContentManager extends AppCompatActivity {
     private ProximityContentAdapter proximityContentAdapter;
     private EstimoteCloudCredentials cloudCredentials;
     private ProximityObserver.Handler proximityObserverHandler;
+    private BeaconsCallback mBeaconsCallback;
 
-    public ProximityContentManager(Context context, ProximityContentAdapter proximityContentAdapter, EstimoteCloudCredentials cloudCredentials) {
+    public ProximityContentManager(
+            Context context,
+            ProximityContentAdapter proximityContentAdapter,
+            EstimoteCloudCredentials cloudCredentials,
+            BeaconsCallback beaconsCallback
+    ) {
         this.context = context;
         this.proximityContentAdapter = proximityContentAdapter;
         this.cloudCredentials = cloudCredentials;
+        this.mBeaconsCallback = beaconsCallback;
     }
 
     public void start() {
@@ -69,17 +76,19 @@ public class ProximityContentManager extends AppCompatActivity {
                             if (title == null) {
                                 title = "unknown";
                             }
-                            Toasty.success(context,"In range",Toast.LENGTH_LONG,true).show();
+                            Toasty.success(context, "In range", Toast.LENGTH_LONG, true).show();
                             String subtitle = Utils.getShortIdentifier(proximityContext.getDeviceId());
 
                             nearbyContent.add(new ProximityContent(title, subtitle));
-                            if (subtitle.equals("f70973c44bf2e4d4cf0e832e04cf9f3b")){
+                            if (subtitle.equals("f70973c44bf2e4d4cf0e832e04cf9f3b")) {
                                 //TODO
                             }
                         }
 
                         proximityContentAdapter.setNearbyContent(nearbyContent);
                         proximityContentAdapter.notifyDataSetChanged();
+
+                        mBeaconsCallback.onBeaconsDetected(nearbyContent);
                         return null;
                     }
                 })
@@ -91,4 +100,9 @@ public class ProximityContentManager extends AppCompatActivity {
     public void stop() {
         proximityObserverHandler.stop();
     }
+
+    public interface BeaconsCallback {
+        public void onBeaconsDetected(List<ProximityContent> nearbyContent);
+    }
+
 }
