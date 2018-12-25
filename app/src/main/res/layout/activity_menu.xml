@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuActivity">
+
+        <RelativeLayout
+            android:id="@+id/relative1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="50sp"
+            android:layout_marginBottom="20sp"
+            android:layout_marginLeft="30sp"
+            android:layout_marginRight="30sp">
+            <ImageView
+                android:id="@+id/galery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/gallerymeseum"/>
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="230sp"
+        android:layout_marginBottom="20sp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="30sp">
+        <ImageView
+            android:id="@+id/aboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/aboutus"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relative3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="400sp"
+        android:layout_marginBottom="20sp"
+        android:layout_marginLeft="30sp"
+        android:layout_marginRight="30sp">
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/search"/>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
