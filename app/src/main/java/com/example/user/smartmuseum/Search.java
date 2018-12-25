@@ -1,5 +1,6 @@
 package com.example.user.smartmuseum;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -65,6 +66,7 @@ public class Search extends AppCompatActivity {
     private void startProximityContentManager() {
         proximityContentManager = new ProximityContentManager(this, proximityContentAdapter, ((MyApplication) getApplication()).cloudCredentials);
         proximityContentManager.start();
+
     }
 
     @Override

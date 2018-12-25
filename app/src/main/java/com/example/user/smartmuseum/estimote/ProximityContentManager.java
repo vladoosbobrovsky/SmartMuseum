@@ -1,18 +1,22 @@
 package com.example.user.smartmuseum.estimote;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.estimote.internal_plugins_api.scanning.Beacon;
 import com.estimote.proximity_sdk.api.EstimoteCloudCredentials;
 import com.estimote.proximity_sdk.api.ProximityObserver;
 import com.estimote.proximity_sdk.api.ProximityObserverBuilder;
 import com.estimote.proximity_sdk.api.ProximityZone;
 import com.estimote.proximity_sdk.api.ProximityZoneBuilder;
 import com.estimote.proximity_sdk.api.ProximityZoneContext;
+import com.example.user.smartmuseum.GalleryActivity;
+import com.example.user.smartmuseum.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +30,33 @@ import kotlin.jvm.functions.Function1;
 // Running into any issues? Drop us an email to: contact@estimote.com
 //
 
-public class ProximityContentManager extends AppCompatActivity {
-
+public class ProximityContentManager  {
+    private Beacon beacon ;
     private Context context;
     private ProximityContentAdapter proximityContentAdapter;
     private EstimoteCloudCredentials cloudCredentials;
     private ProximityObserver.Handler proximityObserverHandler;
 
-    public ProximityContentManager(Context context, ProximityContentAdapter proximityContentAdapter, EstimoteCloudCredentials cloudCredentials) {
+    public ProximityContentManager(Context context,Beacon beacon, ProximityContentAdapter proximityContentAdapter, EstimoteCloudCredentials cloudCredentials) {
         this.context = context;
         this.proximityContentAdapter = proximityContentAdapter;
         this.cloudCredentials = cloudCredentials;
+        this.beacon = beacon;
     }
 
+    public ProximityContentManager(Search search, ProximityContentAdapter proximityContentAdapter, EstimoteCloudCredentials cloudCredentials) {
+
+    }
+
+    public interface BeaconCallback{
+        public void onBeaconFound(Beacon beacon);
+    }
+    BeaconCallback callback = new BeaconCallback() {
+        @Override
+        public void onBeaconFound(Beacon beacon) {
+            context.startActivity(new Intent(context,GalleryActivity.class));
+        }
+    };
     public void start() {
 
         ProximityObserver proximityObserver = new ProximityObserverBuilder(context, cloudCredentials)
@@ -74,11 +92,10 @@ public class ProximityContentManager extends AppCompatActivity {
 
                             nearbyContent.add(new ProximityContent(title, subtitle));
                             if (subtitle.equals("f70973c44bf2e4d4cf0e832e04cf9f3b")){
-                                //TODO
                             }
                         }
 
-                        proximityContentAdapter.setNearbyContent(nearbyContent);
+                        proximityContentAdapter.setNearbyContent((List<ProximityContent>) callback);
                         proximityContentAdapter.notifyDataSetChanged();
                         return null;
                     }
@@ -87,6 +104,7 @@ public class ProximityContentManager extends AppCompatActivity {
 
         proximityObserverHandler = proximityObserver.startObserving(zone);
     }
+
 
     public void stop() {
         proximityObserverHandler.stop();

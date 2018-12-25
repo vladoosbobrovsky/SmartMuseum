@@ -2,6 +2,7 @@ package com.example.user.smartmuseum.estimote;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.user.smartmuseum.GalleryActivity;
 import com.example.user.smartmuseum.R;
+import com.example.user.smartmuseum.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +70,6 @@ public class ProximityContentAdapter extends BaseAdapter {
         myName.setText("Vladoos' beacon");
 
         convertView.setBackgroundColor(Utils.getEstimoteColor(content.getTitle()));
-
         return convertView;
     }
 }
